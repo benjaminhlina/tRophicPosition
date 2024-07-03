@@ -41,8 +41,8 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Install system dependencies
-        run: brew install jags
+      # - name: Install system dependencies
+      #   run: brew install jags
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
