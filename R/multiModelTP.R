@@ -33,6 +33,7 @@
 #' @export
 #'
 #' @import coda
+#' @import rjags
 #'
 #' @examples
 #' \dontrun{
