@@ -34,19 +34,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
-      - name: Install jags (windows-latest)
-        if: runner.os == 'Windows'
-        run: |
-          curl.exe -o wjags.exe --url https://deac-fra.dl.sourceforge.net/project/mcmc-jags/JAGS/4.x/Windows/JAGS-4.2.0-Rtools33.exe
-          wjags.exe /S
-          del wjags.exe
-        shell: cmd
-
-      - name: Install jags (macOS-latest)
-        if: runner.os == 'macOS'
-        run: |
-         rm '/usr/local/bin/gfortran'
-         brew install jags
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -61,6 +48,43 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        if: runner.os != 'Windows'
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install system dependencies (ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          while read -r cmd
+          do
+            eval sudo $cmd
+          done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
+
+      - name: Install jags (windows-latest)
+        if: runner.os == 'Windows'
+        run: |
+          curl.exe -o wjags.exe --url https://deac-fra.dl.sourceforge.net/project/mcmc-jags/JAGS/4.x/Windows/JAGS-4.2.0-Rtools33.exe
+          wjags.exe /S
+          del wjags.exe
+        shell: cmd
+
+      - name: Install jags (macOS-latest)
+        if: runner.os == 'macOS'
+        run: |
+              rm '/usr/local/bin/gfortran'
+              brew install jags
 
       - uses: r-lib/actions/check-r-package@v2
         with:
