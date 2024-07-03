@@ -41,12 +41,7 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      # - name: Install system dependencies
-      #   run: brew install jags
-
-
-
-       - name: Install most Windows system dependencies
+     - name: Install most Windows system dependencies
         if: runner.os == 'Windows'
         run: |
           pacman -Syu mingw-w64-x86_64-make --noconfirm
