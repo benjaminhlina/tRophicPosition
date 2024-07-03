@@ -41,28 +41,25 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      # - name: Install most Windows system dependencies
-      #   if: runner.os == 'Windows'
-      #   run: |
-      #     pacman -Syu mingw-w64-x86_64-make --noconfirm
-      #     g++ --version
-      #     Get-Command g++ | Select-Object -ExpandProperty Definition
-      #     mingw32-make --version
-      #     Get-Command mingw32-make | Select-Object -ExpandProperty Definition
-      #     (New-Object System.Net.WebClient).DownloadFile('https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/Windows/JAGS-4.3.0.exe', 'C:\JAGS-4.3.0.exe')
-      #   shell: powershell
-      #
-      # - name: Install JAGS on Windows
-      #   if: runner.os == 'Windows'
-      #   run: C:\JAGS-4.3.0.exe /S
-      #   shell: cmd
-
-     - name: Install JAGS
-        if: runner.os == 'macOS'
+      - name: Install most Windows system dependencies
+        if: runner.os == 'Windows'
         run: |
-          brew install pkg-config
-          brew install jags
+          pacman -Syu mingw-w64-x86_64-make --noconfirm
+          g++ --version
+          Get-Command g++ | Select-Object -ExpandProperty Definition
+          mingw32-make --version
+          Get-Command mingw32-make | Select-Object -ExpandProperty Definition
+          (New-Object System.Net.WebClient).DownloadFile('https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/Windows/JAGS-4.3.0.exe', 'C:\JAGS-4.3.0.exe')
+        shell: powershell
 
+      - name: Install JAGS on Windows
+        if: runner.os == 'Windows'
+        run: C:\JAGS-4.3.0.exe /S
+        shell: cmd
+
+      - name: Install Mac system dependencies
+        if: runner.os == 'macOS'
+        run: brew install jags
 
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
@@ -74,11 +71,10 @@ jobs:
       #   run: |
       #     cat("\noptions(repos=c(ropensci='https://ropensci.r-universe.dev',CRAN ='https://cloud.r-project.org'))\n", file = "~/.Rprofile", append = TRUE)
       #   shell: Rscript {0}
+      - name: install rjags
+        run: |
+          install.packages("rjags", type = "source")
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
 
       - uses: r-lib/actions/check-r-package@v2
         with:
