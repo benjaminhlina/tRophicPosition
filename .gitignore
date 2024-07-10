@@ -7,3 +7,5 @@ inst/doc
 /revdep/*
 /doc/
 /Meta/
+.DS_Store
+docs
