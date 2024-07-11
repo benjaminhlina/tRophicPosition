@@ -22,7 +22,7 @@ Roach (consumer)}
 data("Roach")
 }
 \description{
-The \link{roach} (https://fishbase.mnhn.fr/summary/SpeciesSummary.php?ID=272&AT=roach)
+The \href{https://fishbase.mnhn.fr/summary/SpeciesSummary.php?ID=272&AT=roach}{roach}
 is a cyprinid freshwater-brackish benthopelagic fish, common to
 most of Europe and western Asial]
 . Larvae and juveniles
