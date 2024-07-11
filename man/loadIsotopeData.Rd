@@ -65,8 +65,8 @@ is called). By default, is 3.}
 }
 \value{
 an isotopeData class object if one consumer and one group are
-  selected. A list of isotopeData class objects if more than one consumer or
-  more than one group are selected.
+selected. A list of isotopeData class objects if more than one consumer or
+more than one group are selected.
 }
 \description{
 This function extracts only selected consumers/species with their respective

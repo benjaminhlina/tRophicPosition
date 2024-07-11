@@ -3,7 +3,7 @@
 \name{extractPredictiveData}
 \alias{extractPredictiveData}
 \title{Function to extract raw data from posterior predictive model-checking
- distributions}
+distributions}
 \usage{
 extractPredictiveData(df = NULL, get = NULL, all = FALSE)
 }

@@ -10,7 +10,7 @@ trophicDensityPlot(df = NULL, quantiles = FALSE, grouped = TRUE)
 \item{df}{data frame with 2 variables: "TP" and "Species". TP can be posterior
 samples of trophic position and Species must be a factor.}
 
-\item{quantiles}{logical variable. If TRUE 95% and 50% central of the
+\item{quantiles}{logical variable. If TRUE 95\% and 50\% central of the
 distribution, plus mean and median are added to the plot.}
 
 \item{grouped}{logical variable. If TRUE trophic position density plots are
@@ -22,7 +22,7 @@ a ggplot2::ggplot object
 \description{
 This function receives a data frame with sampled posterior trophic position
 estimates. The user may set if he/she wants quantiles to be plotted, in which
-case the 95% central, 50% central, mean and median are plotted. Also the user
+case the 95\% central, 50\% central, mean and median are plotted. Also the user
 can states whether he/she wants the density plots grouped or not. For
 visualization purposes, density functions look better if they are not grouped,
 when quantiles are added.

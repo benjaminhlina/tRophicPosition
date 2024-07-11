@@ -28,7 +28,7 @@ printed}
 }
 \value{
 a ggplot2 object with the biplot of the data frame. Also prints the
-  summary of the data frame as needed.
+summary of the data frame as needed.
 }
 \description{
 Function that creates a biplot of a food web with stable isotope values (d13C

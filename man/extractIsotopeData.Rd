@@ -15,7 +15,7 @@ extractIsotopeData(
   deltaN = NULL,
   d13C = "d13C",
   d15N = "d15N",
-  seed = 3,
+  seed = NULL,
   ...
 )
 }
@@ -47,7 +47,8 @@ nitrogen. If NULL it will use Post's assumptions (107 values with 0.39 mean
 
 \item{d15N}{string of the column that has d15N isotope values.}
 
-\item{seed}{integer to get reproducible results. By default, seed = 3.}
+\item{seed}{integer to get reproducible results. There is no default, please
+set to desired number, we often use 3.}
 
 \item{...}{Additional arguments passed to this funcion.}
 }

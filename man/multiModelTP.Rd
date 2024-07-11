@@ -68,16 +68,16 @@ adaptation.}
 }
 \value{
 For each model calculated, returns a data frame of 4 elements with
-  raw posterior samples, a list with posterior TP samples, a list with
-  posterior muDeltaN (if one baseline model was chosen) or alpha (if a two
-  baselines model was chosen) and a data frame with a summary of posterior
-  samples named gg.
+raw posterior samples, a list with posterior TP samples, a list with
+posterior muDeltaN (if one baseline model was chosen) or alpha (if a two
+baselines model was chosen) and a data frame with a summary of posterior
+samples named gg.
 
 For each model calculated, returns a data frame of 4 elements with
-  raw posterior samples, a list with posterior TP samples, a list with
-  posterior muDeltaN (if one baseline model was chosen) or alpha (if a two
-  baselines model was chosen) and a data frame with a summary of posterior
-  samples named gg.
+raw posterior samples, a list with posterior TP samples, a list with
+posterior muDeltaN (if one baseline model was chosen) or alpha (if a two
+baselines model was chosen) and a data frame with a summary of posterior
+samples named gg.
 }
 \description{
 This function takes an isotopeData class object and calculates by default

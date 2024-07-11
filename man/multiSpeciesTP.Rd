@@ -50,13 +50,13 @@ adaptation.}
 }
 \value{
 A list of 4 elements. The output is organised as lists nested. The
-  first element (multiSpeciesTP) has the gg data frame returned by
-  multiModelTP, the second element (df) is a data frame with summary
-  information for all consumers and models, the third element (TPs) has the
-  raw posterior trophic position for all consumers and models, and the last
-  element (Alphas) has raw posterior of muDeltaN (if one baseline model was
-  chosen) or alpha (if a two baselines model was chosen) for all consumers
-  and models.
+first element (multiSpeciesTP) has the gg data frame returned by
+multiModelTP, the second element (df) is a data frame with summary
+information for all consumers and models, the third element (TPs) has the
+raw posterior trophic position for all consumers and models, and the last
+element (Alphas) has raw posterior of muDeltaN (if one baseline model was
+chosen) or alpha (if a two baselines model was chosen) for all consumers
+and models.
 }
 \description{
 This function takes a named list of isotopeData class objects and calculates

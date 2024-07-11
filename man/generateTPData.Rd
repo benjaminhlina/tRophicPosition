@@ -88,8 +88,8 @@ factor). Default is 107.}
 }
 \value{
 An isotopeData class object (named list) with dNb1, dNc and deltaN
- randomly generated observations. If n.baselines = 2, then dCb1, dNb2, dCb2,
- dCc and deltaC are also returned.
+randomly generated observations. If n.baselines = 2, then dCb1, dNb2, dCb2,
+dCc and deltaC are also returned.
 }
 \description{
 This function generates random stable isotope (d13C and d15N) data to use
