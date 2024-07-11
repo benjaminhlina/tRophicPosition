@@ -30,8 +30,8 @@ adaptation.}
 }
 \value{
 \code{TPmodel} returns an object inheriting from class jags which can
-  be used to generate dependent samples from the posterior distribution of
-  the parameters
+be used to generate dependent samples from the posterior distribution of
+the parameters
 }
 \description{
 This function is a wrapper of \code{\link[rjags]{jags.model}}. It receives an

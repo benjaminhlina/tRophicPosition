@@ -21,7 +21,7 @@ per fish species (according to their Table 1).}
 }
 \value{
 a list (if element = "both") or a vector (if element ="N" or element
-  = "C") containing TDF values
+= "C") containing TDF values
 }
 \description{
 This function returns trophic discrimination factors (TDF), given an author,

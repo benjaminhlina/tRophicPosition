@@ -45,10 +45,10 @@ NULL, e.g. c(0.8, 0.8).}
 \item{y1}{string of the column with the central tendency descriptor of
 trophic position. By default, is the mode.}
 
-\item{y1min}{lower value plotted for trophic position. For the 95%
+\item{y1min}{lower value plotted for trophic position. For the 95\%
 credibility interval, this value would be 0.025 percentile.}
 
-\item{y1max}{higher value plotted for trophic position. For the 95%
+\item{y1max}{higher value plotted for trophic position. For the 95\%
 credibility interval, this value would be 0.975 percentile.}
 
 \item{y1lim}{vector of length 2, with limits of the y axis of trophic
@@ -56,10 +56,10 @@ position.}
 
 \item{y2}{string of the column with the central tendency descriptor of alpha.}
 
-\item{y2min}{lower value plotted for alpha. For the 95% credibility interval,
+\item{y2min}{lower value plotted for alpha. For the 95\% credibility interval,
 this value would be percentile 0.025.}
 
-\item{y2max}{higher value plotted for alpha. For the 95% credibility
+\item{y2max}{higher value plotted for alpha. For the 95\% credibility
 interval, this value would be percentile 0.0975.}
 
 \item{xlab}{string of the label of the X axis.}
@@ -82,7 +82,7 @@ variable, the user can decide not to plot the output.}
 }
 \value{
 a gtable (if alpha is plotted) with two ggplot2 objects or a ggplot2
-  object (if alpha is not plotted)
+object (if alpha is not plotted)
 }
 \description{
 This function plots a data frame in ggplot2 format (variables in columns,

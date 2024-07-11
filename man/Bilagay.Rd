@@ -7,18 +7,18 @@
 \format{
 A data frame with 841 rows and 7 variables:
 \describe{
-  \item{Study}{factor, character describing which study funded data
-  collection}
-  \item{Location}{factor, character describing where samples were
-  taken}
-  \item{Spp}{factor, character describing which scientific name of
-  species}
-  \item{FG}{factor, character describing functional group of
-  species}
-  \item{d13C}{numeric, stable isotope d13C values}
-  \item{d15N}{numeric, stable isotope d15N values}
-  \item{NS}{numeric, integer
-  describing north to south ordering (1-10)} }
+\item{Study}{factor, character describing which study funded data
+collection}
+\item{Location}{factor, character describing where samples were
+taken}
+\item{Spp}{factor, character describing which scientific name of
+species}
+\item{FG}{factor, character describing functional group of
+species}
+\item{d13C}{numeric, stable isotope d13C values}
+\item{d15N}{numeric, stable isotope d15N values}
+\item{NS}{numeric, integer
+describing north to south ordering (1-10)} }
 }
 \usage{
 data("Bilagay")
