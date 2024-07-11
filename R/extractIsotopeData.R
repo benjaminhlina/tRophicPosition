@@ -22,7 +22,8 @@
 #' @param deltaN vector of values with trophic discrimination factor for
 #'   nitrogen. If NULL it will use Post's assumptions (107 values with 0.39 mean
 #'   +- 1.3 sd).
-#' @param seed integer to get reproducible results. By default, seed = 3.
+#' @param seed integer to get reproducible results. There is no default, please
+#' set to desired number, we often use 3.
 #' @param ... Additional arguments passed to this funcion.
 #'
 #' @return a list with isotopeData class objects
@@ -42,7 +43,7 @@ extractIsotopeData <- function(df = NULL,
                                groupsColumn = NULL,
                                deltaC = NULL, deltaN = NULL,
                                d13C = "d13C", d15N = "d15N",
-                               seed = 3,
+                               seed = NULL,
                                ...) {
 
   # extractIsotopeData: no visible binding for global variable species fix
@@ -88,7 +89,7 @@ extractIsotopeData <- function(df = NULL,
     } else
 
       return(list("dNb1" = dNb1, "dCb1" = dCb1))
-    }
+  }
 
   getIsotopeData <- function(subset_df, deltaN, deltaC, consumersColumn,
                              group = NULL) {
@@ -101,8 +102,8 @@ extractIsotopeData <- function(df = NULL,
 
     attrb1 <- b1[b1 %in% unique(df[[baselineColumn]])]
     if (!is.null(b2)) { attrb2 <- b2[b2 %in% unique(df[[baselineColumn]])]
-     } else { attrb2 <- NULL
-      }
+    } else { attrb2 <- NULL
+    }
 
     subset_df_temp <- subset_df[!subset_df[,baselineColumn] %in% c(b1, b2),]
 
@@ -115,8 +116,8 @@ extractIsotopeData <- function(df = NULL,
       if (!is.null(group)) { consumer_group <- paste(group,
                                                      consumer,
                                                      sep = "-")
-       } else { consumer_group <- consumer
-        }
+      } else { consumer_group <- consumer
+      }
 
       data <- append(extracted, list("dNc" = dNc, "dCc" = dCc))
 
@@ -134,13 +135,19 @@ extractIsotopeData <- function(df = NULL,
 
     return(siDataListTemp)
   }
-
+  if (is.null(seed)) {
+    seed <- round(runif(1) * .Machine$integer.max)
+  }
+  # if (!is.numeric(seed)) {
+  #   cli::cli_abort("Argument 'seed' must be a numeric")
+  # }
   if (is.null(deltaN)) {
+
     deltaN <- suppressMessages(tRophicPosition::TDF(author = "Post",
                                                     #type = "muscle",
                                                     element = "N",
                                                     seed = seed))
-    }
+  }
 
   if (is.null(deltaC)) {
     set.seed(seed)
@@ -148,7 +155,7 @@ extractIsotopeData <- function(df = NULL,
                                                     #type = "muscle",
                                                     element = "C",
                                                     seed = seed))
-    }
+  }
 
   siDataList <- list()
 
@@ -162,7 +169,7 @@ extractIsotopeData <- function(df = NULL,
                                                       deltaN, deltaC,
                                                       consumersColumn,
                                                       group))
-      }
+    }
 
   } else {
 
