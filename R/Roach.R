@@ -1,9 +1,9 @@
 #' Data frame of Roach in Lough Neagh
 #'
-#' The roach is a cyprinid freshwater-brackish benthopelagic fish, common to
-#' most of Europe and western Asia
-#' [http://www.fishbase.org/summary/Rutilus-rutilus.html]
-#' (http://www.fishbase.org/summary/Rutilus-rutilus.html). Larvae and juveniles
+#' The [roach] (https://fishbase.mnhn.fr/summary/SpeciesSummary.php?ID=272&AT=roach)
+#' is a cyprinid freshwater-brackish benthopelagic fish, common to
+#' most of Europe and western Asial]
+#'. Larvae and juveniles
 #'  are typically pelagic, consuming zooplankton, with a switch to more benthic
 #'   diets as they grow, including plant material and detritus. The dataset
 #'   included here examines if a consumer shows an ontogenetic shift in their
