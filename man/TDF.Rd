@@ -4,7 +4,7 @@
 \alias{TDF}
 \title{Trophic discrimination factors from bibliography}
 \usage{
-TDF(author = "Post", element = "both", type = NULL, seed = 3)
+TDF(author = "Post", element = "both", type = NULL, seed = NULL)
 }
 \arguments{
 \item{author}{could be either "Post" or "McCutchan" at the moment.}
@@ -17,7 +17,8 @@ type analysis; "acidified" and "unacidified" returns TDF separated per
 acidification; and "Rainbow Trout" and "Brook Trout" returns TDF separated
 per fish species (according to their Table 1).}
 
-\item{seed}{integer to have replicated results}
+\item{seed}{integer to have replicated results. Default is a random number,
+please set (e.g., 3).}
 }
 \value{
 a list (if element = "both") or a vector (if element ="N" or element
@@ -30,6 +31,6 @@ depending on the author. At the moment it includes TDF data from Post (2002)
 and from McCutchan et al (2003).
 }
 \examples{
-TDF(author = "McCutchan", element = "N")
+TDF(author = "McCutchan", element = "N", seed = 3)
 
 }
