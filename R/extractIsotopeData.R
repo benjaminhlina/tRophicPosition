@@ -137,7 +137,7 @@ extractIsotopeData <- function(df = NULL,
     return(siDataListTemp)
   }
   if (is.null(seed)) {
-    seed <- round(runif(1) * .Machine$integer.max)
+    seed <- round(stats::runif(1) * .Machine$integer.max)
   }
   # if (!is.numeric(seed)) {
   #   cli::cli_abort("Argument 'seed' must be a numeric")
