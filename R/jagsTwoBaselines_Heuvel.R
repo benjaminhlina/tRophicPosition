@@ -1,5 +1,5 @@
 #' Defines a jags Bayesian model to fit a two baselines trophic position model
-#' (without fractionation for C) using Heuvel et al. 2024 equation
+#' (without fractionation for C) using Heuvel et al. 2024 equation.
 #'
 #' Takes isotopic parameters and returns a jags model object as a character string
 #' for passing to \code{\link[rjags]{jags.model}}.
@@ -110,7 +110,8 @@ jagsTwoBaselines_heuvel  <- function (sigmaNc = NULL,
   count <- 0
   for (i in seq_along(arg)) {
 
-    if(colnames[i] == "lambda") next()
+    if(colnames[i] == "lambda_b") next()
+    if(colnames[i] == "lambda_p") next()
 
     if(grepl("dnorm(", arg[i], fixed = TRUE) &
        grepl(",", arg[i], fixed = TRUE) &

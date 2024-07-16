@@ -3,7 +3,7 @@
 \name{jagsTwoBaselines_heuvel}
 \alias{jagsTwoBaselines_heuvel}
 \title{Defines a jags Bayesian model to fit a two baselines trophic position model
-(without fractionation for C) using Heuvel et al. 2024 equation}
+(without fractionation for C) using Heuvel et al. 2024 equation.}
 \usage{
 jagsTwoBaselines_heuvel(
   sigmaNc = NULL,
@@ -16,7 +16,8 @@ jagsTwoBaselines_heuvel(
   sigmaCb2 = NULL,
   muNb2 = NULL,
   sigmaNb2 = NULL,
-  lambda = NULL,
+  lambda_b = NULL,
+  lambda_p = NULL,
   TP = NULL,
   alpha = NULL,
   muDeltaN = NULL,
@@ -55,9 +56,6 @@ dnorm(0, 0.0001)}
 \item{sigmaNb2}{a distribution defining sigma (standard deviation) for N of
 baseline 2. Default is dunif(0, 100).}
 
-\item{lambda}{an integer indicating the trophic position of the baseline.
-Default is 2.}
-
 \item{TP}{a distribution defining prior of trophic position. Default is
 dunif(lambda, 10), with lambda defined above.}
 
@@ -72,16 +70,19 @@ dnorm(0, 0.0001).}
 (mu) of deltaN. Default is dunif(0, 100).}
 
 \item{...}{additional arguments passed to this function.}
+
+\item{lambda}{an integer indicating the trophic position of the baseline.
+Default is 2.}
 }
 \value{
 A jags model as a character string
 }
 \description{
-Takes some parameters and returns a jags model object as a character string
+Takes isotopic parameters and returns a jags model object as a character string
 for passing to \code{\link[rjags]{jags.model}}.
 }
 \details{
-The two baselines trophic position model is defined as:
+The Heuvel's two baselines trophic position model is defined as:
 
 \deqn{dNc ~ dnorm(deltaN * (TP - lambda) + dNb1*alpha + dNb2 * (1 - alpha),
 tauNc)} and \deqn{dCc ~ dnorm(alpha * (dCb1 - dCb2) + dCb2, tauCc)}
@@ -92,7 +93,7 @@ baseline 2, alpha is the relative proportion of N derived from baseline 1,
 deltaN is the trophic discrimination factor for N, TP is trophic position of
 the consumer and lambda is the trophic level of baselines.
 
-In this Bayesian model, both dNc and dCc are modelled as having a normal
+In this Bayesian model, both dNc and dCc are modeled as having a normal
 distribution with means calculated with above equations and precision (tau)
 calculated as standard deviation ^-2. Furthermore, dNb1, dCb1, dNb2, dCb2 and
 deltaN are defined as random parameters with a normal distribution with mean
@@ -106,7 +107,7 @@ the distributions according to your prior knowledge of the system/consumer
 you are working on. Although it is possible to use a number of predefined or
 customized distributions (see distribution aliases in
 \href{https://sourceforge.net/projects/mcmc-jags/files/Manuals/}{JAGS
-documentation}), it is likely that most of the time you will be using a
+documentation}), most of the time you will be using a
 normal distribution as prior for most parameters. This is the default option
 (i.e. when the function is called without arguments). To change it, you need
 to indicate a mean and standard deviation for the i-est parameter of
