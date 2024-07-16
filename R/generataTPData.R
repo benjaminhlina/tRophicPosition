@@ -45,15 +45,15 @@
 #' ## Good data
 #' a <-generateTPData(dCb1 = -10, dNb1 = -10,
 #' dCc = -4, dNc = 4,
-#' dCb2 = 2, dNb2 = 0)
+#' dCb2 = 2, dNb2 = 0, seed = 3)
 #' plot(a)
 #'
 #' ## Consumer more enriched in carbon
-#' b <-generateTPData(dCb1 = -10, dCc = 0, dCb2 = -2)
+#' b <-generateTPData(dCb1 = -10, dCc = 0, dCb2 = -2, seed = 3)
 #' plot(b)
 #'
 #' ## Consumer much more enriched
-#' c <-generateTPData(dCb1 = -10, dCc = 3, dCb2 = -2)
+#' c <-generateTPData(dCb1 = -10, dCc = 3, dCb2 = -2, seed = 3)
 #' plot(c)
 
 generateTPData <- function (n.baselines = 2,
@@ -78,8 +78,14 @@ generateTPData <- function (n.baselines = 2,
                             DeltaC = 0.39,
                             sd.DeltaC = 1.3,
                             n.obsDeltaC = 107,
-                            seed = 3) {
-  set.seed(seed)
+                            seed = NULL) {
+
+  # if seed is null then use random number
+  if (is.null(seed)) {
+    seed <- round(stats::runif(1) * .Machine$integer.max)
+  }
+  # set seed
+  set.seed(seed = seed)
 
   meanSD <- function(x, mean, sd) {
 
