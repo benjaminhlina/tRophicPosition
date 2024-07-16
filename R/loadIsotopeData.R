@@ -30,7 +30,7 @@
 #'   +- 1.3 sd).
 #' @param seed numerical value to get reproducible results with trophic
 #'   discrimination factors (because they are simulated each time this function
-#'   is called). By default, is 3.
+#'   is called). Please set (e.g., 3).
 #' @param ... Additional arguments passed to this function.
 #'
 #' @return an isotopeData class object if one consumer and one group are
@@ -43,7 +43,7 @@
 #' head(Bilagay)
 #' loadIsotopeData(df = Bilagay, consumer = "Bilagay", consumersColumn = "FG",
 #' group = c("CHI", "COL"), groupsColumn = "Location",
-#' b1 = "Benthic_BL", b2 = "Pelagic_BL", baselineColumn = "FG")
+#' b1 = "Benthic_BL", b2 = "Pelagic_BL", baselineColumn = "FG", seed = 3)
 
 loadIsotopeData <- function(df = NULL,
                             consumer = NULL,
@@ -54,8 +54,16 @@ loadIsotopeData <- function(df = NULL,
                             groupsColumn = NULL,
                             d13C = "d13C", d15N = "d15N",
                             deltaC = NULL, deltaN = NULL,
-                            seed = 666,
+                            seed = NULL,
                             ...) {
+
+
+  # if seed is null then use random number
+  if (is.null(seed)) {
+    seed <- round(runif(1) * .Machine$integer.max)
+  }
+  # set seed
+  set.seed(seed = seed)
 
   arguments <- list(...) #might be names(as.list(match.call())[-1])
 

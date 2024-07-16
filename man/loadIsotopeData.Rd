@@ -17,7 +17,7 @@ loadIsotopeData(
   d15N = "d15N",
   deltaC = NULL,
   deltaN = NULL,
-  seed = 666,
+  seed = NULL,
   ...
 )
 }
@@ -59,7 +59,7 @@ nitrogen. If NULL it will use Post's assumptions (107 values with 0.39 mean
 
 \item{seed}{numerical value to get reproducible results with trophic
 discrimination factors (because they are simulated each time this function
-is called). By default, is 3.}
+is called). Please set (e.g., 3).}
 
 \item{...}{Additional arguments passed to this function.}
 }
@@ -79,5 +79,5 @@ data("Bilagay")
 head(Bilagay)
 loadIsotopeData(df = Bilagay, consumer = "Bilagay", consumersColumn = "FG",
 group = c("CHI", "COL"), groupsColumn = "Location",
-b1 = "Benthic_BL", b2 = "Pelagic_BL", baselineColumn = "FG")
+b1 = "Benthic_BL", b2 = "Pelagic_BL", baselineColumn = "FG", seed = 3)
 }
