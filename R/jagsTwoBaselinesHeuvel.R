@@ -82,7 +82,7 @@
 #'
 #' @export
 
-jagsTwoBaselines_heuvel  <- function (sigmaNc = NULL,
+jagsTwoBaselinesHeuvel  <- function (sigmaNc = NULL,
                                       sigmaCc = NULL,
                                       muCb1 = NULL,
                                       sigmaCb1 = NULL,
