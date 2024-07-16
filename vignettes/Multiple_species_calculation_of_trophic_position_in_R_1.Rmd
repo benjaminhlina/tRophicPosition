@@ -4,34 +4,34 @@ author: "Claudio Quezada-Romegialli, Andrew L Jackson & Chris Harrod"
 date: "December 11 2022"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Multiple species tRophicPosition}
+%\VignetteIndexEntry{Multiple species tRophicPosition}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   %\VignetteDepends{dplyr}
   %\VignetteDepends{knitr}
----
-
-```{r, eval = FALSE, echo = FALSE}
-# To update sysdata
-sysdata <- tRophicPosition:::sysdata
-devtools::use_data(sysdata, internal = TRUE, overwrite = TRUE)
-```
-
-# tRophicPosition
-
-`tRophicPosition`, is an R package incorporating a Bayesian model for the calculation of trophic position using stable isotopes with one or two baselines. As of 2022-12-11, the current version of the package is 0.8. `tRophicPosition` uses the powerful approach of Markov Chain Monte Carlo simulations provided by [JAGS](https://mcmc-jags.sourceforge.io/) and the statistical language [R](https://www.r-project.org). Vignettes can be browsed with `browseVignettes("tRophicPosition")`.
-
-# Introduction
-
-In this vignette, we will introduce the new functions we have developed for `tRophicPosition` in the version 0.6.8-9. These functions are `extractIsotopeData()`, `jagsBayesianModel()` and `multiSpeciesTP()`. Aditionally, we provide an example to run these calculations in parallel (maximizing efficient use of computing power). Each of these functions accomplish different tasks within the Bayesian estimation of trophic position with stable isotopes, extracting stable isotope data for multiple species and/or communities, and  facilitating the calculation of trophic position for multiple consumers within one or more ecosystems. We have also included a parallel calculation of trophic position, to make full use of the multiple processor cores typical in modern computers.
-
-## Installing and loading the package
-
-### Stable version - CRAN
-First of all, you need to install [JAGS](https://mcmc-jags.sourceforge.io/) for your platform, and then install the stable version of `tRophicPosition` from [CRAN](https://CRAN.R-project.org/package=tRophicPosition):
-
-```{r eval = FALSE}
-install.packages("tRophicPosition")
+  ---
+  
+  ```{r, eval = FALSE, echo = FALSE}
+  # To update sysdata
+  sysdata <- tRophicPosition:::sysdata
+  devtools::use_data(sysdata, internal = TRUE, overwrite = TRUE)
+  ```
+  
+  # tRophicPosition
+  
+  `tRophicPosition`, is an R package incorporating a Bayesian model for the calculation of trophic position using stable isotopes with one or two baselines. As of 2022-12-11, the current version of the package is 0.8. `tRophicPosition` uses the powerful approach of Markov Chain Monte Carlo simulations provided by [JAGS](https://mcmc-jags.sourceforge.io/) and the statistical language [R](https://www.r-project.org). Vignettes can be browsed with `browseVignettes("tRophicPosition")`.
+  
+  # Introduction
+  
+  In this vignette, we will introduce the new functions we have developed for `tRophicPosition` in the version 0.6.8-9. These functions are `extractIsotopeData()`, `jagsBayesianModel()` and `multiSpeciesTP()`. Aditionally, we provide an example to run these calculations in parallel (maximizing efficient use of computing power). Each of these functions accomplish different tasks within the Bayesian estimation of trophic position with stable isotopes, extracting stable isotope data for multiple species and/or communities, and  facilitating the calculation of trophic position for multiple consumers within one or more ecosystems. We have also included a parallel calculation of trophic position, to make full use of the multiple processor cores typical in modern computers.
+  
+  ## Installing and loading the package
+  
+  ### Stable version - CRAN
+  First of all, you need to install [JAGS](https://mcmc-jags.sourceforge.io/) for your platform, and then install the stable version of `tRophicPosition` from [CRAN](https://CRAN.R-project.org/package=tRophicPosition):
+  
+  ```{r eval = FALSE}
+  install.packages("tRophicPosition")
 ```
 
 After that, you have to load the package with:
@@ -108,13 +108,15 @@ As shown above, in this data set we have a combination of Study and Location var
 ```{r message = FALSE}
 # install.packages(dplyr) if you haven't installed it before
 library(dplyr)
-Bilagay <- Bilagay %>% mutate(Community = paste(Study,"-", Location, sep = ""))
+Bilagay <- Bilagay %>% 
+  mutate(Community = paste(Study,"-", Location, sep = ""))
 ```
 
 Also, this spreadsheet has information from the latitudinal arrangement of sampling sites, which is the variable `NS` (North to South order), ranging from 1 (most southern site) to 10 (most northern site). Below we order the whole data frame considering those values.
 
 ```{r}
-Bilagay <- Bilagay %>% arrange(NS)
+Bilagay <- Bilagay %>%
+  arrange(NS)
 ```
 
 Now, we are ready to proceed with the calculation of trophic position. This follows the same general process you have already encountered in the previous vignette ([A guide to the use of tRophicPosition](https://github.com/clquezada/tRophicPosition-release-and-vignettes/blob/master/A_guide_to_the_use_of_tRophicPosition_2016-06-12.pdf). First we must consecutively subset the data frame considering each of the communities we have samples of. We could use the subset command, repeating the same command each time for each community.
@@ -127,7 +129,8 @@ To deal with this issue, we have developed a convenient function `extractIsotope
 BilagayList <- extractIsotopeData(Bilagay, b1 = "Pelagic_BL", b2 = "Benthic_BL",
                                   baselineColumn = "FG", consumersColumn = "Spp",
                                   groupsColumn = "Community",
-                                  d13C = "d13C", d15N = "d15N")
+                                  d13C = "d13C", d15N = "d15N", 
+                                  seed = 3)
 ```
 
 If no $\Delta$N and/or $\Delta$C values are included as arguments, by default this function will use assumptions from Post (2002), i.e. 3.4 $\pm$ 0.98 sd for nitrogen and 0.39 $\pm$ 1.3 sd for carbon). You can change either TDF values using the function `TDF()` or a list of values, as explained in the short guide to the use of tRophicPosition vignette.
@@ -152,14 +155,14 @@ Now, as we have extracted each community from the original data frame, we can it
 for (community in BilagayList) {
   print(summary(community))
   plot(community)
-  }
+}
 ```
 
 ```{r echo = FALSE, fig.width =  7, fig.height = 5}
 for (community in BilagayList[1]) {
   print(summary(community))
   plot(community)
-  }
+}
 ```
 
 Now we have to model each community within the Bayesian framework of `tRophicPosition` (as introduced previously in other vignettes, e.g. [a guide to the use of tRophicPosition](https://github.com/clquezada/tRophicPosition-release-and-vignettes/blob/master/A_guide_to_the_use_of_tRophicPosition_2016-06-12.pdf).
@@ -168,8 +171,9 @@ For this, we have developed a function that automatically i) defines a Bayesian 
 
 ```{r, eval = FALSE}
 Bilagay_models <- multiSpeciesTP(BilagayList, model = "twoBaselinesFull",
-                                             n.adapt = 10000, n.iter = 10000,
-                                             burnin = 10000, n.chains = 5, print = FALSE)
+                                 n.adapt = 10000, n.iter = 10000,
+                                 burnin = 10000, n.chains = 5,
+                                 print = FALSE)
 ```
 
 ```{r, echo=FALSE}
@@ -199,14 +203,16 @@ credibilityIntervals(Bilagay_models$df, x = "group", xlab ="Community",
 ```
 
 ```{r echo = FALSE, fig.width = 7, fig.height = 5}
-credibilityIntervals(tRophicPosition:::sysdata$vignetteMSCTP$Bilagay_models$df, x = "group", xlab ="Community")
+credibilityIntervals(tRophicPosition:::sysdata$vignetteMSCTP$Bilagay_models$df, 
+                     x = "group", xlab ="Community")
 ```
 
 To get a numerical summary of posterior estimates (median and 95% credibility interval) of trophic position, we can write the following:
 
 ```{r eval = FALSE}
 # To get a numerical summary
-sapply(Bilagay_models$"TPs", quantile, probs = c(0.025, 0.5, 0.975)) %>% round(3)
+sapply(Bilagay_models$"TPs", quantile, probs = c(0.025, 0.5, 0.975)) %>% 
+  round(3)
 
 # To get the mode
 getPosteriorMode(Bilagay_models$"TPs")
@@ -214,7 +220,9 @@ getPosteriorMode(Bilagay_models$"TPs")
 
 ```{r echo = FALSE}
 # To get a numerical summary
-sapply(tRophicPosition:::sysdata$vignetteMSCTP$Bilagay_models$"TPs", quantile, probs = c(0.025, 0.5, 0.975)) %>% round(3)
+sapply(tRophicPosition:::sysdata$vignetteMSCTP$Bilagay_models$"TPs", quantile, 
+       probs = c(0.025, 0.5, 0.975)) %>% 
+  round(3)
 
 # To get the mode
 getPosteriorMode(tRophicPosition:::sysdata$vignetteMSCTP$Bilagay_models$"TPs")
@@ -233,10 +241,12 @@ pairwiseAlpha <- pairwiseComparisons(Bilagay_models$Alphas[1:8], print = TRUE)
 
 ```{r echo = FALSE}
 # First, we compare bilagay posterior trophic position estimates
-pairwiseTP <- pairwiseComparisons(tRophicPosition:::sysdata$vignetteMSCTP$Bilagay_models$TPs[1:8], print = TRUE)
+pairwiseTP <- pairwiseComparisons(
+  tRophicPosition:::sysdata$vignetteMSCTP$Bilagay_models$TPs[1:8], print = TRUE)
 
 # And then, we compare their posterior alpha estimates
-pairwiseAlpha <- pairwiseComparisons(tRophicPosition:::sysdata$vignetteMSCTP$Bilagay_models$Alphas[1:8], print = TRUE)
+pairwiseAlpha <- pairwiseComparisons(
+  tRophicPosition:::sysdata$vignetteMSCTP$Bilagay_models$Alphas[1:8], print = TRUE)
 ```
 
 ## Parallel trophic position
@@ -250,14 +260,17 @@ Then we will use the function `parLapply()`. This function is a parallel version
 
 ```{r eval = FALSE}
 # First we calculate the time elapsed with system.time() with parallel
-time_parallel <- system.time(a <- parallel::parLapply(cl, BilagayList, multiModelTP, 
-                                               adapt = 500, n.iter = 500,
-                                               burnin = 500))
+time_parallel <- system.time(a <- parallel::parLapply(cl, BilagayList, 
+                                                      multiModelTP, 
+                                                      adapt = 500, 
+                                                      n.iter = 500,
+                                                      burnin = 500))
 
 # Then we calculate the elapsed time with the normal version
-time_serial <- system.time(b <- lapply(BilagayList, multiModelTP, quiet = TRUE, 
-                                               adapt = 500, n.iter = 500,
-                                               burnin = 500))
+time_serial <- system.time(b <- lapply(BilagayList, multiModelTP, 
+                                       quiet = TRUE, 
+                                       adapt = 500, n.iter = 500,
+                                       burnin = 500))
 
 # We have to stop the cluster after each set of calculations
 parallel::stopCluster(cl)

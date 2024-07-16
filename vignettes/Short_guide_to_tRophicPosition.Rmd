@@ -93,7 +93,8 @@ Here FG stands for functional group, and NS refers to an integer representing th
 consumer <- loadIsotopeData(BilagayMEC, consumer = "Bilagay", consumersColumn = "FG",
                             b1 = "Pelagic_BL", b2 = "Benthic_BL",
                             baselineColumn = "FG",
-                            group = "Coquimbo", groupsColumn = "Location")
+                            group = "Coquimbo", groupsColumn = "Location",
+                            seed = 3)
 ```
 
 In the case above we have indicated that all observations that coincide with "Pelagic_BL" in the column "FG" will be extracted as baseline1, and all observations that coincide with "Benthic_BL" in the same column will be extracted as baseline2. And also, all observations that coincide with "Bilagay" in the column "FG" and coincide with "Coquimbo" in the column "location" will be extracted as consumer values. Other options are available, and they can be found with `help(loadIsotopeData)`.
@@ -103,7 +104,8 @@ An essential component of the model to estimate trophic position is the trophic 
 ```{r}
 # First we get TDF values from the internal database using McCutchan's et al
 # (2003) paper
-TDF_values <- TDF(author = "McCutchan", element = "both", type = "muscle")
+TDF_values <- TDF(author = "McCutchan", element = "both", type = "muscle", 
+                  seed = 3)
 
 # Then we use those values within the call to loadIsotopeData()
 consumer_with_McCutchan <- loadIsotopeData(BilagayMEC, 
@@ -115,7 +117,8 @@ consumer_with_McCutchan <- loadIsotopeData(BilagayMEC,
                                            baselineColumn = "FG",
                                            groupsColumn = "Location",
                                            deltaN = TDF_values$deltaN,
-                                           deltaC = TDF_values$deltaC)
+                                           deltaC = TDF_values$deltaC, 
+                                           seed = 3)
 ```
 
 Instead of using mean values $\pm$ sd, one possibility of including the uncertainty of TDF is using the raw data. So you can use a list of values given your knowledge of your consumer or a colleague's information, e.g. `deltaN = c(2, 2.1, 1.9, 2.01, 2.2)` and/or `deltaC = c(0.3, 0.31, 0.4, 0.32)`.

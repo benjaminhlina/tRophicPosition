@@ -34,7 +34,8 @@
 #' head(Bilagay)
 #' isotopeList <- extractIsotopeData(Bilagay, b1 = "Benthic_BL",
 #' b2 = "Pelagic_BL", baselineColumn = "FG", consumersColumn = "Spp",
-#' groupsColumn = "Location", d13C = "d13C", d15N = "d15N")
+#' groupsColumn = "Location", d13C = "d13C", d15N = "d15N",
+#' seed = 3)
 
 extractIsotopeData <- function(df = NULL,
                                b1 = "Baseline 1", b2 = NULL,
@@ -150,7 +151,6 @@ extractIsotopeData <- function(df = NULL,
   }
 
   if (is.null(deltaC)) {
-    set.seed(seed)
     deltaC <- suppressMessages(tRophicPosition::TDF(author = "Post",
                                                     #type = "muscle",
                                                     element = "C",

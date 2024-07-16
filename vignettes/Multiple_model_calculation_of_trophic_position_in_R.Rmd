@@ -76,7 +76,8 @@ consumer1 <- generateTPData(dCb1 = -17.3, dNb1 = 14.2,
                             dCb2 = -12.7, dNb2 = 15.4,
                             DeltaN = 3.4, sd.DeltaN = 0.98,
                             DeltaC = 0.39, sd.DeltaC = 1.3,
-                            consumer = "Consumer 1")
+                            consumer = "Consumer 1",
+                            seed = 3)
 ```
 
 In this function we have also indicated mean and sd values for trophic discrimination factors for `DeltaN` ($\Delta$N) and `DeltaC` ($\Delta$C), and also have indicated a name for the consumer. Remember that all the functions have a help page where you will find other options (write for example `?generateTPData` in the console).

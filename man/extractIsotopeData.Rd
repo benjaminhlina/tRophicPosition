@@ -66,5 +66,6 @@ data("Bilagay")
 head(Bilagay)
 isotopeList <- extractIsotopeData(Bilagay, b1 = "Benthic_BL",
 b2 = "Pelagic_BL", baselineColumn = "FG", consumersColumn = "Spp",
-groupsColumn = "Location", d13C = "d13C", d15N = "d15N")
+groupsColumn = "Location", d13C = "d13C", d15N = "d15N",
+seed = 3)
 }
