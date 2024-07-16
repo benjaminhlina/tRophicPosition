@@ -18,7 +18,7 @@
 #' a <- generateTPData()
 #' plot(a)
 #'
-plot.isotopeData <- function (x,
+plot.isotopeData <- function(x,
                               consumer = NULL,
                               b1 = NULL,
                               b2 = NULL,
