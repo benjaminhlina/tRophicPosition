@@ -11,7 +11,7 @@ simulateTDF(
   nC = 107,
   meanC = NULL,
   sdC = 1.3,
-  seed = 3
+  seed = NULL
 )
 }
 \arguments{
@@ -27,7 +27,8 @@ simulateTDF(
 
 \item{sdC}{standard deviation for deltaC.}
 
-\item{seed}{numerical value to indicate reproducible results.}
+\item{seed}{numerical value to indicate reproducible results. Will be random
+unless set. Please set (e.g., 3).}
 }
 \value{
 a named list with TDF values for nitrogen and/or carbon
@@ -39,10 +40,10 @@ deltaC.
 }
 \examples{
 # 25 values of TDF for nitrogen, mean 3, sd, 1
-simulateTDF(nN = 25, meanN = 3, sdN = 1)
+simulateTDF(nN = 25, meanN = 3, sdN = 1, seed = 3)
 
 # 18 values of TDF for carbon, mean 0.6, sd, 0.7
-simulateTDF(nC = 18, meanC = 0.6, sdC = 0.7)
+simulateTDF(nC = 18, meanC = 0.6, sdC = 0.7, seed = 3)
 
 
 }

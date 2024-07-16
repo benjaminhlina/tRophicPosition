@@ -4,7 +4,7 @@
 \alias{TEF}
 \title{Trophic enrichment factors from bibliography}
 \usage{
-TEF(author = "Post", element = "both", type = "all", seed = 3)
+TEF(author = "Post", element = "both", type = "all", seed = NULL)
 }
 \arguments{
 \item{author}{could be either "Post" or "McCutchan" at the moment.}
@@ -17,7 +17,8 @@ type analysis; "acidified" and "unacidified" returns TEF separated per
 acidification; and "Rainbow Trout" and "Brook Trout" returns TEF separated
 per fish species (according to their Table 1).}
 
-\item{seed}{integer to have replicated results}
+\item{seed}{integer to have replicated results. Will be random value unless
+set. Please set (e.g., 3).}
 }
 \value{
 a list (if element = "both") or a vector (if element ="N" or element
@@ -32,6 +33,6 @@ compatibility backwards of version 0.6.8.
 }
 \examples{
 # TEF() is deprecated, use TDF() instead:
-TDF(author = "McCutchan", element = "N")
+TDF(author = "McCutchan", element = "N", seed = 3)
 
 }

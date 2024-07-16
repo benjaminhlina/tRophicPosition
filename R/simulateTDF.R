@@ -10,17 +10,18 @@
 #' @param nC number of observations for deltaC.
 #' @param meanC mean for deltaC.
 #' @param sdC standard deviation for deltaC.
-#' @param seed numerical value to indicate reproducible results.
+#' @param seed numerical value to indicate reproducible results. Will be random
+#' unless set. Please set (e.g., 3).
 #'
 #' @return a named list with TDF values for nitrogen and/or carbon
 #' @export
 #'
 #' @examples
 #' # 25 values of TDF for nitrogen, mean 3, sd, 1
-#' simulateTDF(nN = 25, meanN = 3, sdN = 1)
+#' simulateTDF(nN = 25, meanN = 3, sdN = 1, seed = 3)
 #'
 #' # 18 values of TDF for carbon, mean 0.6, sd, 0.7
-#' simulateTDF(nC = 18, meanC = 0.6, sdC = 0.7)
+#' simulateTDF(nC = 18, meanC = 0.6, sdC = 0.7, seed = 3)
 #'
 #'
 simulateTDF <- function (nN = 56,
@@ -29,8 +30,13 @@ simulateTDF <- function (nN = 56,
                          nC = 107,
                          meanC = NULL,
                          sdC = 1.3,
-                         seed = 3) {
-
+                         seed = NULL) {
+  # if seed is null then use random number
+  if (is.null(seed)) {
+    seed <- round(runif(1) * .Machine$integer.max)
+  }
+  # set seed
+  set.seed(seed = seed)
   meanSD <- function(x, mean, sd) {
 
     x <- stats::rnorm(x, mean, sd)
