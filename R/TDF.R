@@ -17,6 +17,7 @@
 #'
 #' @return a list (if element = "both") or a vector (if element ="N" or element
 #'   = "C") containing TDF values
+#' @import stats
 #' @export
 #'
 #' @examples TDF(author = "McCutchan", element = "N", seed = 3)
