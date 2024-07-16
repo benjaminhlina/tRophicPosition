@@ -67,8 +67,10 @@
 #'   baseline 2. Default is dunif(0, 100).
 #' @param alpha a distribution defining alpha (mixing model between 2 sources).
 #'   Default is dbeta(1,1).
-#' @param lambda an integer indicating the trophic position of the baseline.
-#'   Default is 2.
+#' @param lambda_b an integer indicating the trophic position of the baseline for
+#' benthic organism. Default is 2.5.
+#' @param lambda_p an integer indicating the trophic position of the baseline for
+#' pelagic orgnasim. Default is 2.
 #' @param TP a distribution defining prior of trophic position. Default is
 #'   dunif(lambda, 10), with lambda defined above.
 #' @param muDeltaN a distribution defining prior for the mean (mu) of deltaN,

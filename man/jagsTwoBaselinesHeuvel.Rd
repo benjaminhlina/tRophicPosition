@@ -56,6 +56,12 @@ dnorm(0, 0.0001)}
 \item{sigmaNb2}{a distribution defining sigma (standard deviation) for N of
 baseline 2. Default is dunif(0, 100).}
 
+\item{lambda_b}{an integer indicating the trophic position of the baseline for
+benthic organism. Default is 2.5.}
+
+\item{lambda_p}{an integer indicating the trophic position of the baseline for
+pelagic orgnasim. Default is 2.}
+
 \item{TP}{a distribution defining prior of trophic position. Default is
 dunif(lambda, 10), with lambda defined above.}
 
@@ -70,9 +76,6 @@ dnorm(0, 0.0001).}
 (mu) of deltaN. Default is dunif(0, 100).}
 
 \item{...}{additional arguments passed to this function.}
-
-\item{lambda}{an integer indicating the trophic position of the baseline.
-Default is 2.}
 }
 \value{
 A jags model as a character string
