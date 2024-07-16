@@ -4,7 +4,7 @@ author: "Claudio Quezada-Romegialli, Andrew L Jackson & Chris Harrod"
 date: "December 11 2022"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Use of multiple models in tRophicPosition}
+  %\VignetteIndexEntry{Using tRophicPosition to estimate TP through the use of multiple models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
