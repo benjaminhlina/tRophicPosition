@@ -23,7 +23,8 @@
 #' isotopeData <- generateTPData(n.obsB = 45,
 #'                               sd.dNb1 = 1, sd.dCb1 = 1,
 #'                               dCb1 = -34, dCb2 = -24,
-#'                               n.obsC = 60, dCc = -29)
+#'                               n.obsC = 60, dCc = -29,
+#'                               seed = 3)
 #'
 #' # Define a one baseline model
 #' model.string <- jagsOneBaseline()
