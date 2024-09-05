@@ -64,8 +64,9 @@ one or more Bayesian models of trophic position for each element of the list.
 }
 \examples{
 \donttest{
-siDataList <- list("consumer1" = generateTPData(consumer = "consumer1"),
-"consumer2" = generateTPData(consumer = "consumer2"))
+siDataList <- list("consumer1" = generateTPData(consumer = "consumer1",
+seed = 3),
+"consumer2" = generateTPData(consumer = "consumer2", seed = 3))
 models <- multiSpeciesTP(siDataList, model = "twoBaselines", n.adapt = 500,
 n.iter = 500, burnin = 500)
 credibilityIntervals(models$df, x = "consumer")
