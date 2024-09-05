@@ -31,7 +31,9 @@ TDF <- function(author = "Post",
     seed <- round(runif(1) * .Machine$integer.max)
   }
   # set seed
-  set.seed(seed = seed)
+  set.seed(
+    seed = seed
+    )
 
   # function for post
   meanSD <- function(x, mean, sd) {
