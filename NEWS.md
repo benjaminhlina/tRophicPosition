@@ -1,4 +1,4 @@
-tRophicPosition v 0.8.2 (Release date: 2024-09-05)
+tRophicPosition v 0.8.1 (Release date: 2024-09-05)
 ==============
 
 -  `extractIsotopeData()`, `generateTPData()`, `loadIsotopeData()`, `simulateTDF()`, and `TDF()`, all have the argument `seed` with a default set to `3`. CRAN does not allow `set.seed()` to be pre set. Found out about this issue with the initial releases of `{nichetools}`. The default of this being set to `3` has been changed to being a random number which is what CRAN wants. 
