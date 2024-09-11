@@ -4,31 +4,31 @@ author: "Claudio Quezada-Romegialli, Andrew L Jackson & Chris Harrod"
 date: "December 11 2022"
 output: rmarkdown::html_vignette
 vignette: >
-%\VignetteIndexEntry{Multiple species tRophicPosition}
+ %\VignetteIndexEntry{Multiple species tRophicPosition}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   %\VignetteDepends{dplyr}
   %\VignetteDepends{knitr}
-  ---
+---
   
-  ```{r, eval = FALSE, echo = FALSE}
+```{r, eval = FALSE, echo = FALSE}
   # To update sysdata
   sysdata <- tRophicPosition:::sysdata
   devtools::use_data(sysdata, internal = TRUE, overwrite = TRUE)
-  ```
+```
   
-  # tRophicPosition
+# tRophicPosition
   
-  `tRophicPosition`, is an R package incorporating a Bayesian model for the calculation of trophic position using stable isotopes with one or two baselines. As of 2022-12-11, the current version of the package is 0.8. `tRophicPosition` uses the powerful approach of Markov Chain Monte Carlo simulations provided by [JAGS](https://mcmc-jags.sourceforge.io/) and the statistical language [R](https://www.r-project.org). Vignettes can be browsed with `browseVignettes("tRophicPosition")`.
+`tRophicPosition`, is an R package incorporating a Bayesian model for the calculation of trophic position using stable isotopes with one or two baselines. As of 2022-12-11, the current version of the package is 0.8. `tRophicPosition` uses the powerful approach of Markov Chain Monte Carlo simulations provided by [JAGS](https://mcmc-jags.sourceforge.io/) and the statistical language [R](https://www.r-project.org). Vignettes can be browsed with `browseVignettes("tRophicPosition")`.
   
-  # Introduction
+# Introduction
   
-  In this vignette, we will introduce the new functions we have developed for `tRophicPosition` in the version 0.6.8-9. These functions are `extractIsotopeData()`, `jagsBayesianModel()` and `multiSpeciesTP()`. Aditionally, we provide an example to run these calculations in parallel (maximizing efficient use of computing power). Each of these functions accomplish different tasks within the Bayesian estimation of trophic position with stable isotopes, extracting stable isotope data for multiple species and/or communities, and  facilitating the calculation of trophic position for multiple consumers within one or more ecosystems. We have also included a parallel calculation of trophic position, to make full use of the multiple processor cores typical in modern computers.
+In this vignette, we will introduce the new functions we have developed for `tRophicPosition` in the version 0.6.8-9. These functions are `extractIsotopeData()`, `jagsBayesianModel()` and `multiSpeciesTP()`. Aditionally, we provide an example to run these calculations in parallel (maximizing efficient use of computing power). Each of these functions accomplish different tasks within the Bayesian estimation of trophic position with stable isotopes, extracting stable isotope data for multiple species and/or communities, and  facilitating the calculation of trophic position for multiple consumers within one or more ecosystems. We have also included a parallel calculation of trophic position, to make full use of the multiple processor cores typical in modern computers.
   
-  ## Installing and loading the package
+## Installing and loading the package
   
-  ### Stable version - CRAN
-  First of all, you need to install [JAGS](https://mcmc-jags.sourceforge.io/) for your platform, and then install the stable version of `tRophicPosition` from [CRAN](https://CRAN.R-project.org/package=tRophicPosition):
+### Stable version - CRAN
+First of all, you need to install [JAGS](https://mcmc-jags.sourceforge.io/) for your platform, and then install the stable version of `tRophicPosition` from [CRAN](https://CRAN.R-project.org/package=tRophicPosition):
   
 ```{r eval = FALSE}
   install.packages("tRophicPosition")
