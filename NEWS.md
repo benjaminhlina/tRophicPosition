@@ -17,7 +17,7 @@ tRophicPosition v 0.8.1 (Release date: 2024-09-05)
 
 - `R-CMD-check.yaml` has been updated. This yaml will pull and build jags for each OS and install `{rjags}` properly to check the package. 
 
-- `pr-commands.yaml` has been added to make pull request checks easier. This yaml should be correct as it will need to function similarly to `R-CMD-check.yaml` when it comes to jags and `{rjags}` installation.  
+- `pr-commands.yaml` has been added to make pull request checks easier.
 
 - The `DESCRIPTION` file has been updated with the correct version of `{Roxygen}` and `{SIBER}` has been added into suggested pkgs as one of the vignettes uses it, the version number has been updated to `0.8.2`. 
 
