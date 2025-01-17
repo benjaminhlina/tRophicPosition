@@ -60,7 +60,7 @@ can be "oneBaseline", "twoBaselines" and/or "twoBaselinesFull".}
 \item{print}{logical value to indicate whether Gelman and Rubin's convergence
 diagnostic and summary of samples are printed.
 These values should be close to 1 and need to evaluated to confirm model
-convergence. Default TRUE.}
+convergence. Default TRUE}
 
 \item{quiet}{logical value to indicate whether messages generated during
 compilation will be suppressed, as well as the progress bar during
