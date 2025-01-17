@@ -14,7 +14,7 @@ multiModelTP(
   thin = 10,
   models = c("oneBaseline", "twoBaselines", "twoBaselinesFull"),
   params = NULL,
-  print = FALSE,
+  print = TRUE,
   quiet = FALSE,
   ...
 )
@@ -29,7 +29,7 @@ multiModelTP(
   thin = 10,
   models = c("oneBaseline", "twoBaselines", "twoBaselinesFull"),
   params = NULL,
-  print = FALSE,
+  print = TRUE,
   quiet = FALSE,
   ...
 )
@@ -58,7 +58,9 @@ can be "oneBaseline", "twoBaselines" and/or "twoBaselinesFull".}
 \item{params}{aditional parameters included as a list.}
 
 \item{print}{logical value to indicate whether Gelman and Rubin's convergence
-diagnostic and summary of samples are printed.}
+diagnostic and summary of samples are printed.
+These values should be close to 1 and need to evaluated to confirm model
+convergence. Default TRUE.}
 
 \item{quiet}{logical value to indicate whether messages generated during
 compilation will be suppressed, as well as the progress bar during
