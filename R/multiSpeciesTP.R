@@ -16,7 +16,7 @@
 #' @param model string or list representing Bayesian models. At the moment they
 #'   can be "oneBaseline", "twoBaselines" and/or "twoBaselinesFull".
 #' @param print logical value to indicate whether Gelman and Rubin's convergence
-#'   diagnostic and summary of samples are printed.
+#'   diagnostic and summary of samples are printed. These values should be close to 1 and need to evaluated to confirm model convergence. Default TRUE.
 #' @param quiet logical value to indicate whether messages generated during
 #'   compilation will be suppressed, as well as the progress bar during
 #'   adaptation.
@@ -50,7 +50,7 @@ multiSpeciesTP <- function (siDataList = siDataList, lambda = 2,
                             burnin = 20000,
                             thin = 10,
                             model = "oneBaseline",
-                            print = FALSE,
+                            print = TRUE,
                             quiet = FALSE,
                             ...)
   {
