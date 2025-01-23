@@ -91,7 +91,7 @@ plot(consumer1)
 In this figure we can see that sample of simulated fish consumers is exactly located in-between both baselines on the $\delta^{13}$C axis, and also, our fish is 6.8&#8240; above the baseline 1 in terms of its $\delta^{15}$N value. If we use a one baseline model, and if the trophic level of baseline 1 (`lambda`) is 2, we would expect a mean trophic position of 4 for our simulated fish species. If we use a two baselines model without fractionation for carbon, we would expect an `alpha` value of 0.5, which means that each baseline is contributing in 50% of the energy inputs to our fish. Finally, if we use a two baselines full model (including fractionation for $\delta^{13}$C), the trophic position of our fish would depend on both baselines, and the relative contribution of each baseline would depend on the trophic discrimination factors ($\Delta$N and $\Delta$C). Clearly, this is worth exploring more, so we will calculate (and compare) estimates for TP using these models with the function `multiModelTP()`.
 
 ```{r, eval = FALSE}
-consumer1_models <- multiModelTP(consumer1)
+consumer1_models <- multiModelTP(consumer1, print = FALSE)
 ```
 
 ```{r, eval = FALSE, echo = FALSE}
@@ -106,11 +106,12 @@ devtools::use_data(sysdata, internal = TRUE, overwrite = TRUE)
 ```
 
 ```{r, echo = FALSE}
-consumer1_models <- multiModelTP(consumer1, n.adapt = 200, n.iter = 200, burnin = 200)
+consumer1_models <- multiModelTP(consumer1, n.adapt = 200, n.iter = 200, burnin = 200, 
+                                 print = FALSE)
 consumer1_models <- tRophicPosition:::sysdata$vignetteMMCTP$consumer1_models
 ```
 
-`multiModelsTP()` requires an object of the class `isotopeData`, which was created previously by the function `generateTPData()`. By default `multiModelsTP()` defines a `lambda = 2` for the baselines, uses 2 chains (`n.chains = 2`) to do the Bayesian calculation with 20,000 adaptive iterations (`n.adapt = 20000`), 20,000 actual iterations (`n.iter = 20000`), 20,000 iterations as burnin (`burnin = 20000`) and a thinning of 10 (`thin = 10`). Furthermore, it estimates TP using three different Bayesian models: one baseline, two baselines and two baselines full (`models = c("oneBaseline", "twoBaselines", "twoBaselinesFull"`). The default setting is to limit the amount of output for each model run (print = FALSE). NB: The user can change any of these options, simply adding them as arguments to `multiModelTP()`, see `?multiModelTP()` for details.
+`multiModelsTP()` requires an object of the class `isotopeData`, which was created previously by the function `generateTPData()`. By default `multiModelsTP()` defines a `lambda = 2` for the baselines, uses 2 chains (`n.chains = 2`) to do the Bayesian calculation with 20,000 adaptive iterations (`n.adapt = 20000`), 20,000 actual iterations (`n.iter = 20000`), 20,000 iterations as burnin (`burnin = 20000`) and a thinning of 10 (`thin = 10`). Furthermore, it estimates TP using three different Bayesian models: one baseline, two baselines and two baselines full (`models = c("oneBaseline", "twoBaselines", "twoBaselinesFull"`). The default setting is to display all model diagnostics to ensure the user knows the model has converged (`print = TRUE`). To limit the amount of output for each model run (print = FALSE), however, recognize that this limited output will provided a reduced amount of information regarding model convergance . NB: The user can change any of these options, simply adding them as arguments to `multiModelTP()`, see `?multiModelTP()` for details. 
 
 Also, by default this function uses Post's (2002) assumptions on TDF (i.e. 56 values with mean 3.4 $\pm$ 0.98 SD for $\Delta$N and 107 values with mean 0.39 $\pm$ 1.3 SD for $\Delta$C).
 
@@ -131,12 +132,12 @@ consumer2$deltaC <- TDF(author = "McCutchan", element = "C")
 And now we will calculate the three Bayesian models of trophic position again, with the only difference being we have changed their TDF values.
 
 ```{r, eval = FALSE}
-consumer2_models <- multiModelTP(consumer2)
+consumer2_models <- multiModelTP(consumer2, print = FALSE)
 ```
 
 ```{r, eval = FALSE, echo = FALSE}
 # To update sysdata
-consumer2_models <- multiModelTP(consumer2)
+consumer2_models <- multiModelTP(consumer2, print = FALSE)
 sysdata <- tRophicPosition:::sysdata
 sysdata$vignetteMMCTP$consumer2_models <- consumer2_models
 
@@ -145,7 +146,8 @@ devtools::use_data(sysdata, internal = TRUE, overwrite = TRUE)
 ```
 
 ```{r, echo = FALSE}
-consumer2_models <- multiModelTP(consumer2, n.adapt = 200, n.iter = 200, burnin = 200)
+consumer2_models <- multiModelTP(consumer2, n.adapt = 200, n.iter = 200, burnin = 200, 
+                                 print = FALSE)
 consumer2_models <- tRophicPosition:::sysdata$vignetteMMCTP$consumer2_models
 ```
 

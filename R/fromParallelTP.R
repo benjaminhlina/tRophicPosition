@@ -21,7 +21,7 @@
 #' BilagayList <- extractIsotopeData(Bilagay,
 #' communityColumn = "Location",speciesColumn = "FG",
 #' b1 = "Pelagic_BL", b2 = "Benthic_BL",
-#' baselineColumn = "FG",
+#' baselineColumn = "FG", seed = 3)
 #' deltaC = TDF(author = "McCutchan", element = "C", type = "muscle"),
 #' deltaN = TDF(author = "McCutchan", element = "N", type = "muscle"))
 #' Bilagay_TPmodels <- parallel::parLapply(cluster,

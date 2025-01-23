@@ -13,7 +13,7 @@ multiSpeciesTP(
   burnin = 20000,
   thin = 10,
   model = "oneBaseline",
-  print = FALSE,
+  print = TRUE,
   quiet = FALSE,
   ...
 )
@@ -40,7 +40,7 @@ sampling.}
 can be "oneBaseline", "twoBaselines" and/or "twoBaselinesFull".}
 
 \item{print}{logical value to indicate whether Gelman and Rubin's convergence
-diagnostic and summary of samples are printed.}
+diagnostic and summary of samples are printed. These values should be close to 1 and need to evaluated to confirm model convergence. Default TRUE.}
 
 \item{quiet}{logical value to indicate whether messages generated during
 compilation will be suppressed, as well as the progress bar during
@@ -64,8 +64,9 @@ one or more Bayesian models of trophic position for each element of the list.
 }
 \examples{
 \donttest{
-siDataList <- list("consumer1" = generateTPData(consumer = "consumer1"),
-"consumer2" = generateTPData(consumer = "consumer2"))
+siDataList <- list("consumer1" = generateTPData(consumer = "consumer1",
+seed = 3),
+"consumer2" = generateTPData(consumer = "consumer2", seed = 3))
 models <- multiSpeciesTP(siDataList, model = "twoBaselines", n.adapt = 500,
 n.iter = 500, burnin = 500)
 credibilityIntervals(models$df, x = "consumer")
