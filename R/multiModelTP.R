@@ -18,7 +18,7 @@
 #' @param models string or list representing Bayesian models. At the moment they
 #'   can be "oneBaseline", "twoBaselines" and/or "twoBaselinesFull".
 #' @param print logical value to indicate whether Gelman and Rubin's convergence
-#'   diagnostic and summary of samples are printed.
+#'   diagnostic and summary of samples are printed. These values should be close to 1 and need to evaluated to confirm model convergence. Default TRUE.
 #' @param quiet logical value to indicate whether messages generated during
 #'   compilation will be suppressed, as well as the progress bar during
 #'   adaptation.
@@ -53,10 +53,10 @@ multiModelTP <- function (siData = siData,
                           models = c("oneBaseline",
                                      "twoBaselines",
                                      "twoBaselinesFull"),
-                          print = FALSE,
+                          print = TRUE,
                           quiet = FALSE,
                           ...)
-  {
+{
 
   #To DO
   dots <- list(...)
@@ -66,7 +66,7 @@ multiModelTP <- function (siData = siData,
   if (methods::is(siData)[1] != "isotopeData") {
     if (checkNames(df = siData, flag = 4)) class(siData) <- "isotopeData"
     else stop("We need an isotopeData class object")
-    }
+  }
 
 
   HPDs  <- data.frame(matrix(ncol = 11, nrow = 0))
@@ -94,7 +94,7 @@ multiModelTP <- function (siData = siData,
       myvars <- names(siData) %in% c("dCb1", "dNb2", "dCb2", "dCc", "deltaC")
       siData_mod <- siData[!myvars]
       variable.names <- c("TP", "muDeltaN")
-      }
+    }
 
     else if (model == "twoBaselines") {
       model.string <- tRophicPosition::jagsTwoBaselines(lambda = lambda)
@@ -105,7 +105,7 @@ multiModelTP <- function (siData = siData,
     else if (model == "twoBaselinesFull"){
       model.string <- tRophicPosition::jagsTwoBaselinesFull(lambda = lambda)
       model_txt <- "2bf"
-      }
+    }
 
     if (!is.null(parallel) & is.numeric(parallel)) {
       #TO DO...
@@ -137,7 +137,7 @@ multiModelTP <- function (siData = siData,
 
       break
 
-      }
+    }
 
 
     else {
@@ -155,7 +155,7 @@ multiModelTP <- function (siData = siData,
       samples <- stats::window(samples, start = n.adapt + burnin,
                                end = n.adapt + burnin + n.iter)
 
-      }
+    }
 
     if (isTRUE(print)) {
 
@@ -168,18 +168,18 @@ multiModelTP <- function (siData = siData,
                              attributes(siData)$consumer))
       else
 
-          if(!is.null(attributes(siData)$consumer))
+        if(!is.null(attributes(siData)$consumer))
 
-            plotMCMC(samples, sub = paste(model,
-                                      attributes(siData)$consumer))
+          plotMCMC(samples, sub = paste(model,
+                                        attributes(siData)$consumer))
 
-          else
-            plotMCMC(samples, sub = model)
+      else
+        plotMCMC(samples, sub = model)
 
       print(summary(samples))
       print(coda::gelman.diag(samples))
 
-      }
+    }
 
     TP.combined <- coda::mcmc(do.call(rbind, samples))
     HPD <- coda::HPDinterval(TP.combined)
@@ -198,10 +198,10 @@ multiModelTP <- function (siData = siData,
       alpha.median <- NA
       alpha.mode <- NA
 
-      } else {
-        alpha.median <- median(TP.combined[,2])
-        alpha.mode <- hdrcde::hdr(TP.combined[,2])$mode
-        }
+    } else {
+      alpha.median <- median(TP.combined[,2])
+      alpha.mode <- hdrcde::hdr(TP.combined[,2])$mode
+    }
 
     if (!is.null(attributes(siData)$group))
       group <-  attributes(siData)$group

@@ -67,8 +67,10 @@
 #'   baseline 2. Default is dunif(0, 100).
 #' @param alpha a distribution defining alpha (mixing model between 2 sources).
 #'   Default is dbeta(1,1).
-#' @param lambda an integer indicating the trophic position of the baseline.
-#'   Default is 2.
+#' @param lambda_b an integer indicating the trophic position of the baseline for
+#' benthic organism. Default is 2.5.
+#' @param lambda_p an integer indicating the trophic position of the baseline for
+#' pelagic orgnasim. Default is 2.
 #' @param TP a distribution defining prior of trophic position. Default is
 #'   dunif(lambda, 10), with lambda defined above.
 #' @param muDeltaN a distribution defining prior for the mean (mu) of deltaN,
@@ -82,22 +84,23 @@
 #'
 #' @export
 
-jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
-                              sigmaCc = NULL,
-                              muCb1 = NULL,
-                              sigmaCb1 = NULL,
-                              muNb1 = NULL,
-                              sigmaNb1 = NULL,
-                              muCb2 = NULL,
-                              sigmaCb2 = NULL,
-                              muNb2 = NULL,
-                              sigmaNb2 = NULL,
-                              lambda = NULL,
-                              TP = NULL,
-                              alpha = NULL,
-                              muDeltaN = NULL,
-                              sigmaDeltaN = NULL,
-                              ...)
+jagsTwoBaselinesHeuvel_2  <- function (sigmaNc = NULL,
+                                     sigmaCc = NULL,
+                                     muCb1 = NULL,
+                                     sigmaCb1 = NULL,
+                                     muNb1 = NULL,
+                                     sigmaNb1 = NULL,
+                                     muCb2 = NULL,
+                                     sigmaCb2 = NULL,
+                                     muNb2 = NULL,
+                                     sigmaNb2 = NULL,
+                                     lambda_b = NULL,
+                                     lambda_p = NULL,
+                                     TP = NULL,
+                                     alpha = NULL,
+                                     muDeltaN = NULL,
+                                     sigmaDeltaN = NULL,
+                                     ...)
 {
 
   ##########################
@@ -109,7 +112,8 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
   count <- 0
   for (i in seq_along(arg)) {
 
-    if(colnames[i] == "lambda") next()
+    if(colnames[i] == "lambda_b") next()
+    if(colnames[i] == "lambda_p") next()
 
     if(grepl("dnorm(", arg[i], fixed = TRUE) &
        grepl(",", arg[i], fixed = TRUE) &
@@ -132,11 +136,12 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
       msg = "It seems that you are not using dnorm(mean, sd),  dunif(min, max)
       or dbeta(a, b) as priors, or they are not correctly written. Please check
       the arguments."
-      )
+    )
 
   # ----------------------------------------------------------------------------
   # JAGS code for fitting Inverse Wishart version of SIBER to two groups
   # ----------------------------------------------------------------------------
+
   modelString <- "
 
     model {
@@ -167,6 +172,9 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     deltaN[j] ~ dnorm(muDeltaN, tauDeltaN)
   }
 
+
+
+
   # ----------------------------------------------------------------------------
   #And now we are ready to calculate the trophic position
   # ----------------------------------------------------------------------------
@@ -195,12 +203,16 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
   }"
 
 
+  #  Constant lambda
+  # lambda <- 2 # lambda is a constant set to 2
+
   # ----------------------------------------------------------------------------
   # Priors
   # ----------------------------------------------------------------------------
 
   # ----------------------------------------------------------------------------
-  # Priors for dCb1
+  # Priors for dCb1 - mean
+  #  muCb1 follows a normal distribution with mean 0 and very small precision
   if (is.null(muCb1)) {
     newString <- "muCb1 ~ dnorm(0, 0.0001)"
 
@@ -208,6 +220,9 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste("muCb1 ~", toString(muCb1))
   }
 
+  # Prior for tauCb1 (precision of sigmaCb1)
+  # tauCb1 is defined as the inverse of the variance (sigmaCb1 squared)
+  # sigmaCb1 follows a uniform distribution between 0 and 100
   modelString <- paste (modelString, newString, sep = "\n")
 
   if (is.null(sigmaCb1)) {
@@ -219,10 +234,12 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste(newString, newString2, sep = "\n")
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
 
   # ----------------------------------------------------------------------------
-  # Priors for dNb1
+  # Priors for dNb1 - mean
+  # muNb1 follows a normal distribution with mean 0 and very small precision
+
   if (is.null(muNb1)) {
     newString <- "muNb1 ~ dnorm(0, 0.0001)"
 
@@ -230,8 +247,11 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste("muNb1 ~", toString(muNb1))
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
 
+  # Prior for tauNb1 (precision of sigmaNb1)
+  # tauNb1 is defined as the inverse of the variance (sigmaNb1 squared)
+  # sigmaNb1 follows a uniform distribution between 0 and 100
   if (is.null(sigmaNb1)) {
     newString <-     "tauNb1 <- pow(sigmaNb1, -2)
                       sigmaNb1 ~ dunif(0, 100)"
@@ -241,11 +261,12 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste(newString, newString2, sep = "\n")
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
-
+  modelString <- paste(modelString, newString, sep = "\n")
 
   # ----------------------------------------------------------------------------
-  # Priors for dCb2
+  # Priors for dCb2 - muCb2
+  # muCb2 follows a normal distribution with mean 0 and very small precision
+
   if (is.null(muCb2)) {
     newString <- "muCb2 ~ dnorm(0, 0.0001)"
 
@@ -253,7 +274,10 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste("muCb2 ~", toString(muCb2))
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
+  # Prior for tauCb2 (precision of sigmaCb2)
+  # tauCb2 is defined as the inverse of the variance (sigmaCb2 squared)
+  # sigmaCb2 follows a uniform distribution between 0 and 100
 
   if (is.null(sigmaCb2)) {
     newString <-     "tauCb2 <- pow(sigmaCb2, -2)
@@ -264,10 +288,12 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste(newString, newString2, sep = "\n")
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
 
   # ----------------------------------------------------------------------------
-  # Priors for dNb2
+  # Priors for dNb2 - muNb2
+  # muNb2 follows a normal distribution with mean 0 and very small precision
+
   if (is.null(muNb2)) {
     newString <- "muNb2 ~ dnorm(0, 0.0001)"
 
@@ -275,8 +301,10 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste("muNb2 ~", toString(muNb2))
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
-
+  modelString <- paste(modelString, newString, sep = "\n")
+  # Prior for tauNb2 (precision of sigmaNb2)
+  # tauNb2 is defined as the inverse of the variance (sigmaNb2 squared)
+  # sigmaNb2 follows a uniform distribution between 0 and 100
   if (is.null(sigmaNb2)) {
     newString <-     "tauNb2 <- pow(sigmaNb2, -2)
                       sigmaNb2 ~ dunif(0, 100)"
@@ -286,11 +314,14 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste(newString, newString2, sep = "\n")
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
 
 
   # ----------------------------------------------------------------------------
   # Priors on the carbon mixing model
+  # Prior for alpha
+  # alpha follows a beta distribution with shape parameters 1 and 1
+
   if (is.null(alpha)) {
     newString <- "alpha ~ dbeta(1,1)"
 
@@ -298,8 +329,11 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste("alpha ~", toString(alpha))
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
-
+  modelString <- paste(modelString, newString, sep = "\n")
+  # Prior for tauCc (precision of sigmaCc)
+  # tauCc is defined as the inverse of the variance (sigmaCc squared)
+  # sigmaCc follows a uniform distribution between 0 and 100
+  #
   if (is.null(sigmaCc)) {
     newString <-     "tauCc <- pow(sigmaCc, -2)
                       sigmaCc ~ dunif(0, 100)"
@@ -309,10 +343,12 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste(newString, newString2, sep = "\n")
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
 
   # ----------------------------------------------------------------------------
-  # Priors on the dN in the consumer
+  # Priors on the dN in the consumer rior for trophic position (TP)
+  # TP follows a uniform distribution between lambda and 10
+  #
   if (is.null(TP)) {
     newString <- "TP ~ dunif(lambda, 10)"
 
@@ -320,7 +356,11 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste("TP ~", toString(TP))
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
+  # Prior for tauNc (precision of sigmaNc)
+  # tauNc is defined as the inverse of the variance (sigmaNc squared)
+  # sigmaNc follows a uniform distribution between 0 and 100
+  #
 
   if (is.null(sigmaNc)) {
     newString <-     "tauNc <- pow(sigmaNc, -2)
@@ -331,10 +371,12 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste(newString, newString2, sep = "\n")
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
 
   # ----------------------------------------------------------------------------
   # Priors on the deltaN (trophic enrichment factor)
+  #  muDeltaN follows a normal distribution with mean 0 and very small precision
+  #
   if (is.null(muDeltaN)) {
     newString <- "muDeltaN ~ dnorm(0, 0.0001)"
 
@@ -342,8 +384,12 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste("muDeltaN ~", toString(muDeltaN))
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
 
+
+  # Prior for tauDeltaN (precision of sigmaDeltaN)
+  # tauDeltaN is defined as the inverse of the variance (sigmaDeltaN squared)
+  # sigmaDeltaN follows a uniform distribution between 0 and 100
   if (is.null(sigmaDeltaN)) {
     newString <-     "tauDeltaN <- pow(sigmaDeltaN, -2)
                       sigmaDeltaN ~ dunif(0, 100)"
@@ -353,24 +399,58 @@ jagsTwoBaselinesHeuvel <- function (sigmaNc = NULL,
     newString <- paste(newString, newString2, sep = "\n")
   }
 
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
 
 
-  #constants
-  if (is.null(lambda)) {
-    newString <- "lambda <- 2"
+  # Constant lambda - is expected trophic level of the baseline that is
+  # pelagic
+  # lambda is a constant set to 2.5
+
+  if (is.null(lambda_p)) {
+    newString <- "lambda_p <- 2"
 
   } else {
-    if(!is.numeric(lambda)) stop("lambda must be numeric")
-    newString <- paste("lambda <- ", toString(lambda))
+    if(!is.numeric(lambda_p)) stop("lambda_p must be numeric")
+    newString <- paste("lambda_p <- ", toString(lambda_p))
   }
-  modelString <- paste (modelString, newString, sep = "\n")
+  modelString <- paste(modelString, newString, sep = "\n")
+  # Constant lambda - lambda is expected trophic level of the baseline
+  # of bentihc organisms
+  # lambda is a constant set to 2.5
+
+  if (is.null(lambda_b)) {
+    newString <- "lambda_b <- 2.5"
+
+  } else {
+    if(!is.numeric(lambda_b)) stop("lambda_b must be numeric")
+    newString <- paste("lambda_b <- ", toString(lambda_b))
+  }
+  modelString <- paste(modelString, newString, sep = "\n")
 
   newString <- "}" # end of jags model script
   modelString <- paste (modelString, newString, sep = "\n")
 
-  class(modelString) <- append(class(modelString), "twoBaselinesHeuvel")
+  class(modelString) <- append(class(modelString), "twoBaselines_heuvel_2")
 
   return(modelString)
 
 } # end of function
+
+
+# model {
+#   # Define alpha_R as normally distributed
+#   alpha_R ~ dnorm(mu_alpha_R, tau_alpha_R)
+#
+#   # Specify the transformation for alpha_R
+#   alpha_R <- (alpha_C - alpha_Min) / (alpha_Max - alpha_Min)
+#
+#   # Priors for the parameters (assuming these are necessary)
+#   mu_alpha_R ~ dnorm(0, 0.0001)  # Prior for mean of alpha_R
+#   tau_alpha_R <- pow(sigma_alpha_R, -2)
+#   sigma_alpha_R ~ dunif(0, 100)   # Prior for standard deviation of alpha_R
+#
+#   alpha_C ~ dunif(0, 1)           # Uniform prior for alpha_C
+#   alpha_Min ~ dunif(0, 1)         # Uniform prior for alpha_Min
+#   alpha_Max ~ dunif(0, 1)         # Uniform prior for alpha_Max
+# }
+
