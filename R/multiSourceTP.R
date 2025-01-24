@@ -43,7 +43,7 @@
 #' credibilityIntervals(models$gg, x = "model")
 #' }
 
-multiModelTP <- function (siData = siData, lambda = 2,
+multiModelTP <- function(siData = siData, lambda = 2,
                           n.chains = 2,
                           n.adapt = 20000,
                           n.iter = 20000,
